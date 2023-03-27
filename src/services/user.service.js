@@ -1,4 +1,3 @@
-
 import model from '../database/models/index.js'
 import * as tokenService from './token.service.js'
 import getUniqueId from '../utils/getUniqueId.js'

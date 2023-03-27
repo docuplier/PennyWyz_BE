@@ -1,4 +1,4 @@
-import * as  transactionService from '../services/transaction.service.js'
+import * as transactionService from '../services/transaction.service.js'
 
 export const deposit = async (req, res, next) => {
   try {

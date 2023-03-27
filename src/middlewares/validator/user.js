@@ -35,9 +35,7 @@ const validationRules = {
       .withMessage('role is required')
       .isIn(Object.values(USER_ROLES))
       .withMessage(
-        `role must be one of these: ${Object.values(USER_ROLES).join(
-          ', '
-        )}`
+        `role must be one of these: ${Object.values(USER_ROLES).join(', ')}`
       ),
   ],
   login: [
@@ -84,14 +82,9 @@ const validationRules = {
       .withMessage('role can not be empty.')
       .isIn(Object.values(USER_ROLES))
       .withMessage(
-        `role must be one of these: ${Object.values(USER_ROLES).join(
-          ', '
-        )}`
+        `role must be one of these: ${Object.values(USER_ROLES).join(', ')}`
       ),
   ],
 }
 
-export default (routeValidation) => [
-  validationRules[routeValidation],
-  validate,
-]
+export default (routeValidation) => [validationRules[routeValidation], validate]

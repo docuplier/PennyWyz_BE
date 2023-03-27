@@ -5,7 +5,7 @@ class BaseError extends Error {
     this.status = status
   }
 
-  toJSON() { }
+  toJSON() {}
 }
 
 export class AppError extends BaseError {

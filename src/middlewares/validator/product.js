@@ -84,7 +84,4 @@ const validationRules = {
   ],
 }
 
-export default (routeValidation) => [
-  validationRules[routeValidation],
-  validate,
-]
+export default (routeValidation) => [validationRules[routeValidation], validate]

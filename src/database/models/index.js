@@ -18,9 +18,9 @@ const connection = new Sequelize(
 )
 
 Object.keys(models).forEach((file) => {
-  const model = models[file](connection, Sequelize.DataTypes);
-  db[model.name] = model;
-});
+  const model = models[file](connection, Sequelize.DataTypes)
+  db[model.name] = model
+})
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

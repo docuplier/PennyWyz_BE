@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as  transactionController from '../controllers/transaction.controller.js'
+import * as transactionController from '../controllers/transaction.controller.js'
 import validateTransaction from '../middlewares/validator/transaction.js'
 import requestFor from '../middlewares/auth/checkAuthorization.js'
 import { USER_ROLES } from '../config/constants.js'
