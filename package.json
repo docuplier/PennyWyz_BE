@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Comurule/fatcoder-farm.git"
+    "url": "git+https://github.com/Comurule/vending_machine_api.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Comurule/fatcoder-farm/issues"
+    "url": "https://github.com/Comurule/vending_machine_api/issues"
   },
-  "homepage": "https://github.com/Comurule/fatcoder-farm#readme",
+  "homepage": "https://github.com/Comurule/vending_machine_api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
