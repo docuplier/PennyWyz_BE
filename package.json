@@ -1,0 +1,56 @@
+{
+  "name": "vending_machine_api",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "An app to demonstrate my understanding of System design in a real world scenario.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules --trace-warnings node_modules/jest/bin/jest.js --runInBand",
+    "lint": "eslint -c .eslintrc.json \"src/**\"  --fix",
+    "format": "prettier --write 'src/**/*.js'",
+    "db:migrate": "npx sequelize-cli db:migrate --url postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}",
+    "db:empty": "npx sequelize-cli db:migrate:undo:all --url postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}",
+    "db:reset": "npm run db:empty && npm run db:migrate",
+    "start:prod": "NODE_ENV=production && npm run db:migrate && npm run start",
+    "start": "node www/server",
+    "dev": "NODE_ENV=development && nodemon www/server"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {}
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Comurule/fatcoder-farm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Comurule/fatcoder-farm/issues"
+  },
+  "homepage": "https://github.com/Comurule/fatcoder-farm#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^12.0.3",
+    "express": "^4.17.2",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.13.0",
+    "winston": "^3.4.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@jest/globals": "^29.5.0",
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "supertest": "^6.3.3"
+  }
+}
