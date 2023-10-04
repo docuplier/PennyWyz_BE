@@ -1,44 +1,30 @@
 export default (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
-    id: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.STRING,
-      unique: true,
-    },
-    productName: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
-    amountAvailable: {
-      type: DataTypes.INTEGER,
+    priceRange: {
+      type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        min: 0,
-      },
     },
-    cost: {
-      type: DataTypes.INTEGER,
+    country: {
+      type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'NG',
       validate: {
-        min: 0,
-        isMultipleOf5(value) {
-          if (parseInt(value) % 5 !== 0) {
-            throw new Error(
-              'Only values, which are multiples of 5, are allowed!'
-            )
-          }
-        },
+        isIn: ['NG', 'US', 'UK'],
       },
     },
   })
   Product.associate = function (models) {
-    models.Product.belongsTo(models.User, {
-      foreignKey: 'sellerId',
-      as: 'seller',
+    models.Product.belongsTo(models.Category, {
+      foreignKey: 'categoryId',
     })
-    models.Product.hasMany(models.Transaction, {
+    models.Product.belongsTo(models.Category, {
+      foreignKey: 'subCategoryId',
+    })
+    models.Product.hasMany(models.ListContent, {
       foreignKey: 'productId',
     })
   }

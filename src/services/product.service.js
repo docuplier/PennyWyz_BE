@@ -3,72 +3,63 @@ import {
   ResourceConflictError,
   ResourceNotFoundError,
 } from '../utils/Errors.js'
-import getUniqueId from '../utils/getUniqueId.js'
 
 const { Op } = model.Sequelize
 
-const parse = (queryParams) => {
-  let filter = { where: {} }
+const parse = (queryParams = {}) => {
+  const { limit = 10, page = 1 } = queryParams
+  const filter = { where: {}, limit, offset: (page - 1) * limit }
 
-  if (queryParams.sellerId) filter.where.sellerId = queryParams.sellerId
-  if (queryParams.productName)
-    filter.where.productName = {
-      [Op.iLike]: '%' + queryParams.productName + '%',
+  if (queryParams.search) {
+    filter.where.name = {
+      [Op.iLike]: `%${queryParams.search}%`,
     }
+  }
 
   return filter
 }
 
-export const createAProduct = async (data, sellerId) => {
+export const createAProduct = async (data) => {
   const checkDuplicate = await model.Product.findOne({
-    where: { productName: { [Op.iLike]: data.productName } },
+    where: { name: { [Op.iLike]: data.name }, country: data.country },
   })
   if (checkDuplicate) {
     throw new ResourceConflictError(
-      `Product, with productName: ${data.productName}, already exists.`
+      `Product, with productName: ${data.name}, already exists.`
     )
   }
 
-  const id = await getUniqueId((id) => model.Product.findByPk(id))
-  const newProduct = await model.Product.create({
-    ...data,
-    id,
-    sellerId,
-  })
+  const newProduct = await model.Product.create(data)
 
   return newProduct
 }
 
-export const updateAProduct = async (id, updateData, sellerId) => {
-  let data = {
-    productName: updateData.productName,
-    amountAvailable: updateData.amountAvailable,
-    cost: updateData.cost,
-  }
-  if (data.productName) {
+export const updateAProduct = async (id, updateData) => {
+  if (updateData.name) {
     const checkDuplicate = await model.Product.findOne({
       where: {
-        productName: { [Op.iLike]: data.productName },
+        name: { [Op.iLike]: updateData.name },
         id: { [Op.ne]: id },
       },
     })
     if (checkDuplicate) {
       throw new ResourceConflictError(
-        `Product, with productName: ${updateData.productName}, already exists.`
+        `Product, with productName: ${updateData.nName}, already exists.`
       )
     }
   }
 
-  const result = await model.Product.update(data, { where: { id, sellerId } })
+  const result = await model.Product.update(updateData, { where: { id } })
   const affectedRecordCount = result[0]
-  if (!affectedRecordCount)
+  if (!affectedRecordCount) {
     throw new ResourceNotFoundError('Product record not found.')
+  }
 
   return true
 }
 
-export const deleteAProduct = async (id, sellerId) => {
-  const isDeleted = await model.Product.destroy({ where: { id, sellerId } })
+export const deleteAProduct = async (id) => {
+  const isDeleted = await model.Product.destroy({ where: { id } })
   if (!isDeleted) throw new ResourceNotFoundError('Product record not found.')
 
   return true

@@ -9,25 +9,22 @@ import {
 import { hashPassword, validatePassword } from '../utils/hash.js'
 
 const { Op } = model.Sequelize
-const parse = (queryParams) => {
-  return {}
-}
+const parse = (queryParams) => ({})
 
 export const createAUser = async (data) => {
   const checkDuplicate = await model.User.findOne({
-    where: { username: { [Op.iLike]: data.username } },
+    where: { email: { [Op.iLike]: data.email } },
   })
   if (checkDuplicate) {
     throw new ResourceConflictError(
-      `User, with username: ${data.username}, already exists.`
+      `User, with email: ${data.email}, already exists.`
     )
   }
 
   const hashedPassword = await hashPassword(data.password)
   const id = await getUniqueId((id) => model.User.findByPk(id))
   const newUser = await model.User.create({
-    username: data.username,
-    role: data.role,
+    ...data,
     password: hashedPassword,
     id,
   })
@@ -35,18 +32,14 @@ export const createAUser = async (data) => {
   const accessToken = await tokenService.generateToken(newUser.id)
   return {
     accessToken,
-    user: {
-      id: newUser.id,
-      role: newUser.role,
-      username: newUser.username,
-    },
+    user: newUser.dataValues,
   }
 }
 
 export const loginAUser = async (credentials) => {
   try {
     const savedUser = await model.User.findOne({
-      where: { username: { [Op.iLike]: credentials.username } },
+      where: { email: { [Op.iLike]: credentials.email } },
     })
     if (!savedUser) throw new ForbiddenError()
 
@@ -73,37 +66,25 @@ export const loginAUser = async (credentials) => {
 }
 
 export const updateAUser = async (id, updateData) => {
-  let data = {
-    username: updateData.username,
-    password: updateData.password,
-    role: updateData.role,
-  }
-  if (data.role) {
-    const hasProduct = await model.Product.findOne({ where: { sellerId: id } })
-    if (hasProduct) {
-      throw new ResourceConflictError(
-        'Sellers, with Products, can not change roles. Kindly, delete all products attached to this User.'
-      )
-    }
-  }
-  if (data.username) {
+  if (updateData.email) {
     const checkDuplicate = await model.User.findOne({
-      where: { username: { [Op.iLike]: data.username }, id: { [Op.ne]: id } },
+      where: { email: { [Op.iLike]: updateData.email }, id: { [Op.ne]: id } },
     })
     if (checkDuplicate) {
       throw new ResourceConflictError(
-        `User, with username: ${updateData.username}, already exists.`
+        `User, with email: ${updateData.email}, already exists.`
       )
     }
   }
-  if (data.password) {
-    data.password = await hashPassword(data.password)
+  if (updateData.password) {
+    updateData.password = await hashPassword(updateData.password)
   }
 
-  const result = await model.User.update(data, { where: { id } })
+  const result = await model.User.update(updateData, { where: { id } })
   const affectedRecordCount = result[0]
-  if (!affectedRecordCount)
+  if (!affectedRecordCount) {
     throw new ResourceNotFoundError('User record not found.')
+  }
 
   return true
 }
@@ -119,23 +100,12 @@ export const getOneUser = async (id, isUserProfile = false) => {
   const savedRecord = await model.User.findByPk(id)
   if (!savedRecord) throw new ResourceNotFoundError('User Record not Found')
 
-  return {
-    id: savedRecord.id,
-    role: savedRecord.role,
-    username: savedRecord.username,
-    deposit: isUserProfile ? savedRecord.deposit : undefined,
-  }
+  return savedRecord
 }
 
 export const listSelectedUsers = async (query) => {
   const findOption = parse(query)
-  const userList = await model.User.findAll(findOption)
-
-  return userList.map((user) => ({
-    id: user.id,
-    role: user.role,
-    username: user.username,
-  }))
+  return model.User.findAll(findOption)
 }
 
 export const logoutAllTokens = async (id) => {

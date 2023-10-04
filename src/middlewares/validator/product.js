@@ -62,25 +62,28 @@ const validationRules = {
       .withMessage('amountAvailable must be an integer.'),
   ],
   listQueryParams: [
-    check('productName')
+    check('search')
       .trim()
       .optional()
       .notEmpty()
-      .withMessage('productName can not be empty')
+      .withMessage('search can not be empty')
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'productName must be in a string format with at least 3 characters.'
+        'search must be in a string format with at least 3 characters.'
       ),
-    check('sellerId')
+    check('limit')
       .optional()
       .notEmpty()
-      .withMessage('sellerId can not be empty.')
-      .isString()
-      .isLength({ min: constants.ID_LENGTH, max: constants.ID_LENGTH })
-      .withMessage(
-        `sellerId must be a string of ${constants.ID_LENGTH} characters.`
-      ),
+      .withMessage('limit can not be empty.')
+      .isInt({ min: 0 })
+      .withMessage('limit must be an integer not less than zero.'),
+    check('page')
+      .optional()
+      .notEmpty()
+      .withMessage('page can not be empty.')
+      .isInt({ min: 0 })
+      .withMessage('page must be an integer not less than zero.'),
   ],
 }
 
