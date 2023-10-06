@@ -8,7 +8,7 @@ const server = http.createServer(app)
 const port = process.env.PORT || 8080
 
 db.connection
-  .sync()
+  .sync({ force: +process.argv[2] === 1 })
   .then(() => {
     logger.info('Database Connected.')
     server.listen(port, () => {

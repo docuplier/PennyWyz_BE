@@ -10,6 +10,6 @@ router
     validateProduct('listQueryParams'),
     productController.listSelectedProducts
   )
-
+  .post(productController.seed)
 
 export default router

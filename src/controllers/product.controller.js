@@ -1,4 +1,5 @@
 import * as productService from '../services/product.service.js'
+import seedProducts from '../database/seeders/index.js'
 
 export const createAProduct = async (req, res, next) => {
   try {
@@ -64,6 +65,20 @@ export const getOne = async (req, res, next) => {
       status: 'success',
       message: 'Product details.',
       data,
+    })
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export const seed = async (req, res, next) => {
+  const { category, page } = req.body
+  try {
+    const result = await seedProducts(category, page)
+    return res.status(201).json({
+      status: 'success',
+      message: 'Product record created successfully.',
+      data: result.length,
     })
   } catch (error) {
     return next(error)

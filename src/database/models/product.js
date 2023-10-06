@@ -4,9 +4,16 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    priceRange: {
-      type: DataTypes.STRING,
+    priceData: {
+      type: DataTypes.TEXT,
       allowNull: false,
+      get() {
+        const rawValue = this.getDataValue('priceData') || '{}'
+        return JSON.parse(rawValue)
+      },
+      set(value) {
+        this.setDataValue('priceData', JSON.stringify(value))
+      },
     },
     country: {
       type: DataTypes.STRING,
