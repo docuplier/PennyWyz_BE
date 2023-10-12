@@ -1,8 +1,8 @@
 export default {
   development: {
     username: 'comurule',
-    password: '',
-    database: 'vending',
+    password: 'mystatus',
+    database: 'pennywiz',
     host: '127.0.0.1',
     dialect: 'postgres',
   },
