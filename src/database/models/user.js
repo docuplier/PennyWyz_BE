@@ -23,15 +23,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-  })
+  });
   User.associate = function (models) {
     models.User.hasMany(models.Token, {
       foreignKey: 'userId',
-    })
+    });
     models.User.hasMany(models.List, {
       foreignKey: 'userId',
-    })
-  }
+    });
+  };
 
-  return User
-}
+  return User;
+};

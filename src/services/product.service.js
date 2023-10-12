@@ -1,38 +1,38 @@
-import model from '../database/models/index.js'
+import model from '../database/models/index.js';
 import {
   ResourceConflictError,
   ResourceNotFoundError,
-} from '../utils/Errors.js'
+} from '../utils/Errors.js';
 
-const { Op } = model.Sequelize
+const { Op } = model.Sequelize;
 
 const parse = (queryParams = {}) => {
-  const { limit = 10, page = 1 } = queryParams
-  const filter = { where: {}, limit, offset: (page - 1) * limit }
+  const { limit = 10, page = 1 } = queryParams;
+  const filter = { where: {}, limit, offset: (page - 1) * limit };
 
   if (queryParams.search) {
     filter.where.name = {
       [Op.iLike]: `%${queryParams.search}%`,
-    }
+    };
   }
 
-  return filter
-}
+  return filter;
+};
 
 export const createAProduct = async (data) => {
   const checkDuplicate = await model.Product.findOne({
     where: { name: { [Op.iLike]: data.name }, country: data.country },
-  })
+  });
   if (checkDuplicate) {
     throw new ResourceConflictError(
-      `Product, with productName: ${data.name}, already exists.`
-    )
+      `Product, with productName: ${data.name}, already exists.`,
+    );
   }
 
-  const newProduct = await model.Product.create(data)
+  const newProduct = await model.Product.create(data);
 
-  return newProduct
-}
+  return newProduct;
+};
 
 export const updateAProduct = async (id, updateData) => {
   if (updateData.name) {
@@ -41,40 +41,41 @@ export const updateAProduct = async (id, updateData) => {
         name: { [Op.iLike]: updateData.name },
         id: { [Op.ne]: id },
       },
-    })
+    });
     if (checkDuplicate) {
       throw new ResourceConflictError(
-        `Product, with productName: ${updateData.nName}, already exists.`
-      )
+        `Product, with productName: ${updateData.nName}, already exists.`,
+      );
     }
   }
 
-  const result = await model.Product.update(updateData, { where: { id } })
-  const affectedRecordCount = result[0]
+  const result = await model.Product.update(updateData, { where: { id } });
+  const affectedRecordCount = result[0];
   if (!affectedRecordCount) {
-    throw new ResourceNotFoundError('Product record not found.')
+    throw new ResourceNotFoundError('Product record not found.');
   }
 
-  return true
-}
+  return true;
+};
 
 export const deleteAProduct = async (id) => {
-  const isDeleted = await model.Product.destroy({ where: { id } })
-  if (!isDeleted) throw new ResourceNotFoundError('Product record not found.')
+  const isDeleted = await model.Product.destroy({ where: { id } });
+  if (!isDeleted) throw new ResourceNotFoundError('Product record not found.');
 
-  return true
-}
+  return true;
+};
 
 export const getOneProduct = async (id) => {
-  const savedRecord = await model.Product.findByPk(id)
-  if (!savedRecord) throw new ResourceNotFoundError('Product record not found.')
+  const savedRecord = await model.Product.findByPk(id);
+  if (!savedRecord)
+    throw new ResourceNotFoundError('Product record not found.');
 
-  return savedRecord
-}
+  return savedRecord;
+};
 
 export const listSelectedProducts = async (query) => {
-  const findOption = parse(query)
-  const productList = await model.Product.findAll(findOption)
+  const findOption = parse(query);
+  const productList = await model.Product.findAll(findOption);
 
-  return productList
-}
+  return productList;
+};

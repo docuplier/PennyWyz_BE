@@ -10,14 +10,14 @@ export default (sequelize, DataTypes) => {
     },
     {
       paranoid: true,
-    }
-  )
+    },
+  );
   Token.associate = function (models) {
     models.Token.belongsTo(models.User, {
       foreignKey: 'userId',
       onDelete: 'CASCADE',
-    })
-  }
+    });
+  };
 
-  return Token
-}
+  return Token;
+};

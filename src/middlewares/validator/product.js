@@ -1,6 +1,5 @@
-import { check } from 'express-validator'
-import validate from './baseValidator.js'
-import constants from '../../config/constants.js'
+import { check } from 'express-validator';
+import validate from './baseValidator.js';
 
 const validationRules = {
   checkId: [
@@ -8,9 +7,8 @@ const validationRules = {
       .trim()
       .notEmpty()
       .withMessage('ID is required.')
-      .isString()
-      .isLength({ min: constants.ID_LENGTH, max: constants.ID_LENGTH })
-      .withMessage(`ID must be a string of ${constants.ID_LENGTH} characters.`),
+      .isInt({ min: 0 })
+      .withMessage('ID must be an integer.'),
   ],
   create: [
     check('productName')
@@ -20,7 +18,7 @@ const validationRules = {
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'productName must be in a string format with at least 3 characters.'
+        'productName must be in a string format with at least 3 characters.',
       ),
     check('cost')
       .notEmpty()
@@ -44,7 +42,7 @@ const validationRules = {
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'productName must be in a string format with at least 3 characters.'
+        'productName must be in a string format with at least 3 characters.',
       ),
     check('cost')
       .optional()
@@ -70,7 +68,7 @@ const validationRules = {
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'search must be in a string format with at least 3 characters.'
+        'search must be in a string format with at least 3 characters.',
       ),
     check('limit')
       .optional()
@@ -85,6 +83,9 @@ const validationRules = {
       .isInt({ min: 0 })
       .withMessage('page must be an integer not less than zero.'),
   ],
-}
+};
 
-export default (routeValidation) => [validationRules[routeValidation], validate]
+export default (routeValidation) => [
+  validationRules[routeValidation],
+  validate,
+];

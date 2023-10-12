@@ -8,11 +8,11 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
       get() {
-        const rawValue = this.getDataValue('priceData') || '{}'
-        return JSON.parse(rawValue)
+        const rawValue = this.getDataValue('priceData') || '{}';
+        return JSON.parse(rawValue);
       },
       set(value) {
-        this.setDataValue('priceData', JSON.stringify(value))
+        this.setDataValue('priceData', JSON.stringify(value));
       },
     },
     country: {
@@ -23,18 +23,18 @@ export default (sequelize, DataTypes) => {
         isIn: ['NG', 'US', 'UK'],
       },
     },
-  })
-  Product.associate = function (models) {
+  });
+  Product.associate = function associate(models) {
     models.Product.belongsTo(models.Category, {
       foreignKey: 'categoryId',
-    })
+    });
     models.Product.belongsTo(models.Category, {
       foreignKey: 'subCategoryId',
-    })
+    });
     models.Product.hasMany(models.ListContent, {
       foreignKey: 'productId',
-    })
-  }
+    });
+  };
 
-  return Product
-}
+  return Product;
+};

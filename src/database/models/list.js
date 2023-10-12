@@ -10,15 +10,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  })
-  List.associate = function (models) {
+  });
+  List.associate = function associate(models) {
     models.List.belongsTo(models.User, {
       foreignKey: 'userId',
-    })
+    });
     models.List.hasMany(models.ListContent, {
       foreignKey: 'listId',
-    })
-  }
+    });
+  };
 
-  return List
-}
+  return List;
+};

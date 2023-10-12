@@ -8,15 +8,15 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-  })
+  });
   Category.associate = function (models) {
     models.Category.hasMany(models.Product, {
       foreignKey: 'categoryId',
-    })
+    });
     models.Category.hasMany(models.Product, {
       foreignKey: 'subCategoryId',
-    })
-  }
+    });
+  };
 
-  return Category
-}
+  return Category;
+};

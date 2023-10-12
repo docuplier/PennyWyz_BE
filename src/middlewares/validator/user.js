@@ -1,6 +1,6 @@
-import { check } from 'express-validator'
-import validate from './baseValidator.js'
-import constants, { USER_ROLES } from '../../config/constants.js'
+import { check } from 'express-validator';
+import validate from './baseValidator.js';
+import constants from '../../config/constants.js';
 
 const validationRules = {
   checkId: [
@@ -13,14 +13,31 @@ const validationRules = {
       .withMessage(`ID must be a string of ${constants.ID_LENGTH} characters.`),
   ],
   create: [
-    check('username')
+    check('email')
       .trim()
       .notEmpty()
-      .withMessage('username is required')
+      .withMessage('email is required')
+      .isEmail()
+      .withMessage('Invalid email.'),
+    check('firstName')
+      .optional()
+      .trim()
+      .notEmpty()
+      .withMessage('firstName can not be empty')
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'username must be in a string format with at least 3 characters.'
+        'firstNname must be in a string format with at least 3 characters.',
+      ),
+    check('lastName')
+      .optional()
+      .trim()
+      .notEmpty()
+      .withMessage('lastName can not be empty')
+      .isString()
+      .isLength({ min: 3 })
+      .withMessage(
+        'lastName must be in a string format with at least 3 characters.',
       ),
     check('password')
       .trim()
@@ -29,25 +46,14 @@ const validationRules = {
       .isString()
       .isLength({ min: 6 })
       .withMessage('password must be a string with at least 6 characters.'),
-    check('role')
-      .trim()
-      .notEmpty()
-      .withMessage('role is required')
-      .isIn(Object.values(USER_ROLES))
-      .withMessage(
-        `role must be one of these: ${Object.values(USER_ROLES).join(', ')}`
-      ),
   ],
   login: [
-    check('username')
+    check('email')
       .trim()
       .notEmpty()
-      .withMessage('username is required')
-      .isString()
-      .isLength({ min: 3 })
-      .withMessage(
-        'username must be in a string format with at least 3 characters.'
-      ),
+      .withMessage('email is required')
+      .isEmail()
+      .withMessage('Invalid email.'),
     check('password')
       .trim()
       .notEmpty()
@@ -57,34 +63,30 @@ const validationRules = {
       .withMessage('password must be a string with at least 6 characters.'),
   ],
   update: [
-    check('username')
-      .trim()
+    check('firstName')
       .optional()
+      .trim()
       .notEmpty()
-      .withMessage('username can not be empty.')
+      .withMessage('firstName can not be empty')
       .isString()
       .isLength({ min: 3 })
       .withMessage(
-        'username must be in a string format with at least 3 characters.'
+        'firstNname must be in a string format with at least 3 characters.',
       ),
-    check('password')
-      .trim()
+    check('lastName')
       .optional()
+      .trim()
       .notEmpty()
-      .withMessage('password can not be empty.')
+      .withMessage('lastName can not be empty.')
       .isString()
-      .isLength({ min: 6 })
-      .withMessage('password must be a string with at least 6 characters.'),
-    check('role')
-      .trim()
-      .optional()
-      .notEmpty()
-      .withMessage('role can not be empty.')
-      .isIn(Object.values(USER_ROLES))
+      .isLength({ min: 3 })
       .withMessage(
-        `role must be one of these: ${Object.values(USER_ROLES).join(', ')}`
+        'lastName must be in a string format with at least 3 characters.',
       ),
   ],
-}
+};
 
-export default (routeValidation) => [validationRules[routeValidation], validate]
+export default (routeValidation) => [
+  validationRules[routeValidation],
+  validate,
+];

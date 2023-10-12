@@ -1,17 +1,17 @@
-import crypto from 'crypto'
-import constants from '../config/constants.js'
+import crypto from 'crypto';
+import constants from '../config/constants.js';
 
 const createShortId = async (length = constants.ID_LENGTH) => {
-  const characters = 'abcdefghijklmnopqrstuvwxyz$1234567890'
-  let token = []
+  const characters = 'abcdefghijklmnopqrstuvwxyz$1234567890';
+  let token = [];
 
   while (length > 0) {
-    let index = await crypto.randomInt(characters.length)
-    token.push(characters[index])
-    length--
+    let index = await crypto.randomInt(characters.length);
+    token.push(characters[index]);
+    length--;
   }
-  return token.join('')
-}
+  return token.join('');
+};
 
 /**
  * Generates a unique Id for the concerned entity.
@@ -20,10 +20,10 @@ const createShortId = async (length = constants.ID_LENGTH) => {
  * @returns uniqueId
  */
 export default async (conditionPromise, size = constants.ID_LENGTH) => {
-  let id = await createShortId(size)
+  let id = await createShortId(size);
   while (await conditionPromise(id)) {
-    id = await createShortId(size)
+    id = await createShortId(size);
   }
 
-  return id
-}
+  return id;
+};

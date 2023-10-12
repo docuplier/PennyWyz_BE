@@ -7,15 +7,15 @@ export default (sequelize, DataTypes) => {
         min: 0,
       },
     },
-  })
-  ListContent.associate = function (models) {
+  });
+  ListContent.associate = function associate(models) {
     models.ListContent.belongsTo(models.List, {
       foreignKey: 'listId',
-    })
+    });
     models.ListContent.belongsTo(models.Product, {
       foreignKey: 'productId',
-    })
-  }
+    });
+  };
 
-  return ListContent
-}
+  return ListContent;
+};

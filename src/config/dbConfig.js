@@ -21,4 +21,4 @@ export default {
     port: process.env.POSTGRES_PORT,
     dialect: 'postgres',
   },
-}
+};

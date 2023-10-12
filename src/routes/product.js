@@ -1,15 +1,15 @@
-import { Router } from 'express'
-import * as productController from '../controllers/product.controller.js'
-import validateProduct from '../middlewares/validator/product.js'
+import { Router } from 'express';
+import * as productController from '../controllers/product.controller.js';
+import validateProduct from '../middlewares/validator/product.js';
 
-const router = Router()
+const router = Router();
 
 router
   .route('/')
   .get(
     validateProduct('listQueryParams'),
-    productController.listSelectedProducts
+    productController.listSelectedProducts,
   )
-  .post(productController.seed)
+  .post(productController.seed);
 
-export default router
+export default router;
