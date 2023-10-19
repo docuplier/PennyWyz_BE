@@ -12,6 +12,7 @@ const parse = (userId, queryParams = {}) => {
   const filter = {
     where: { userId },
     limit,
+    include: [{ model: model.ListContent, include: [model.Product] }],
     offset: (page - 1) * limit,
   };
 
@@ -79,5 +80,24 @@ export const getOne = async (id) => {
 
 export const getAll = async (query, userId) => {
   const findOption = parse(userId, query);
-  return model.List.findAll(findOption);
+  const all = await model.List.findAll(findOption);
+
+  return all.map((l) => {
+    const price = l.ListContents.reduce(
+      (acc, lc) => ({
+        lowerRange: acc.lowerRange + lc.Product.price.lowerRange * lc.quantity,
+        upperRange: acc.upperRange + lc.Product.price.upperRange * lc.quantity,
+      }),
+      { lowerRange: 0, upperRange: 0 },
+    );
+    return {
+      id: l.id,
+      name: l.name,
+      country: l.country,
+      price,
+      itemsCount: l.ListContents.length,
+      createdAt: l.createdAt,
+      updatedAt: l.updatedAt,
+    };
+  });
 };

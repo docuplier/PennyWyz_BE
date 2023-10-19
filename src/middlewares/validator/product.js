@@ -1,5 +1,6 @@
-import { check } from 'express-validator';
+import { check, query } from 'express-validator';
 import validate from './baseValidator.js';
+import constants from '../../config/constants.js';
 
 const validationRules = {
   checkId: [
@@ -69,6 +70,15 @@ const validationRules = {
       .isLength({ min: 3 })
       .withMessage(
         'search must be in a string format with at least 3 characters.',
+      ),
+    query('country')
+      .trim()
+      .notEmpty()
+      .withMessage('country is required.')
+      .isString()
+      .isIn(constants.SUPPORTED_COUNTRIES)
+      .withMessage(
+        `country must be in ${constants.SUPPORTED_COUNTRIES.join(', ')}.`,
       ),
     check('limit')
       .optional()

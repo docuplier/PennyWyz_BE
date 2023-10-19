@@ -22,6 +22,15 @@ const validationRules = {
       .withMessage(
         'name must be in a string format with at least 3 characters.',
       ),
+    check('country')
+      .trim()
+      .notEmpty()
+      .withMessage('country is required')
+      .isString()
+      .isIn(constants.SUPPORTED_COUNTRIES)
+      .withMessage(
+        `country must be in ${constants.SUPPORTED_COUNTRIES.join(', ')}.`,
+      ),
   ],
   update: [
     check('name')
@@ -35,6 +44,16 @@ const validationRules = {
       ),
   ],
   getAll: [
+    check('country')
+      .trim()
+      .optional()
+      .notEmpty()
+      .withMessage('country can not be empty.')
+      .isString()
+      .isIn(constants.SUPPORTED_COUNTRIES)
+      .withMessage(
+        `country must be in ${constants.SUPPORTED_COUNTRIES.join(', ')}.`,
+      ),
     check('limit')
       .optional()
       .notEmpty()

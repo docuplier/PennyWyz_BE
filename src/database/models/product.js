@@ -1,3 +1,5 @@
+import constants from '../../config/constants';
+
 export default (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
     name: {
@@ -18,9 +20,9 @@ export default (sequelize, DataTypes) => {
     country: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'NG',
+      defaultValue: constants.SUPPORTED_COUNTRIES[0],
       validate: {
-        isIn: ['NG', 'US', 'UK'],
+        isIn: constants.SUPPORTED_COUNTRIES,
       },
     },
   });

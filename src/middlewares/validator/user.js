@@ -1,4 +1,4 @@
-import { check } from 'express-validator';
+import { check, body } from 'express-validator';
 import validate from './baseValidator.js';
 import constants from '../../config/constants.js';
 
@@ -13,13 +13,13 @@ const validationRules = {
       .withMessage(`ID must be a string of ${constants.ID_LENGTH} characters.`),
   ],
   create: [
-    check('email')
+    body('email')
       .trim()
       .notEmpty()
       .withMessage('email is required')
       .isEmail()
       .withMessage('Invalid email.'),
-    check('firstName')
+    body('firstName')
       .optional()
       .trim()
       .notEmpty()
@@ -29,7 +29,7 @@ const validationRules = {
       .withMessage(
         'firstNname must be in a string format with at least 3 characters.',
       ),
-    check('lastName')
+    body('lastName')
       .optional()
       .trim()
       .notEmpty()
@@ -39,7 +39,7 @@ const validationRules = {
       .withMessage(
         'lastName must be in a string format with at least 3 characters.',
       ),
-    check('password')
+    body('password')
       .trim()
       .notEmpty()
       .withMessage('password is required.')
@@ -48,13 +48,13 @@ const validationRules = {
       .withMessage('password must be a string with at least 6 characters.'),
   ],
   login: [
-    check('email')
+    body('email')
       .trim()
       .notEmpty()
       .withMessage('email is required')
       .isEmail()
       .withMessage('Invalid email.'),
-    check('password')
+    body('password')
       .trim()
       .notEmpty()
       .withMessage('password is required.')
@@ -63,7 +63,7 @@ const validationRules = {
       .withMessage('password must be a string with at least 6 characters.'),
   ],
   update: [
-    check('firstName')
+    body('firstName')
       .optional()
       .trim()
       .notEmpty()
@@ -73,7 +73,7 @@ const validationRules = {
       .withMessage(
         'firstNname must be in a string format with at least 3 characters.',
       ),
-    check('lastName')
+    body('lastName')
       .optional()
       .trim()
       .notEmpty()
