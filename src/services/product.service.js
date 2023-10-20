@@ -7,8 +7,8 @@ import {
 const { Op } = model.Sequelize;
 
 const parse = (queryParams = {}) => {
-  const { limit = 10, page = 1 } = queryParams;
-  const filter = { where: {}, limit, offset: (page - 1) * limit };
+  const { limit = 10, page = 1, country } = queryParams;
+  const filter = { where: { country }, limit, offset: (page - 1) * limit };
 
   if (queryParams.search) {
     filter.where.name = {
