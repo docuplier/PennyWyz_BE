@@ -1,4 +1,4 @@
-import constants from '../../config/constants';
+import constants from '../../config/constants.js';
 
 export default (sequelize, DataTypes) => {
   const Product = sequelize.define('Product', {
