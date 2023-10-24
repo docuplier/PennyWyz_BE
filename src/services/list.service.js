@@ -85,8 +85,10 @@ export const getAll = async (query, userId) => {
   return all.map((l) => {
     const price = l.ListContents.reduce(
       (acc, lc) => ({
-        lowerRange: acc.lowerRange + lc.Product.price.lowerRange * lc.quantity,
-        upperRange: acc.upperRange + lc.Product.price.upperRange * lc.quantity,
+        lowerRange:
+          acc.lowerRange + lc.Product.priceData.lowerRange * lc.quantity,
+        upperRange:
+          acc.upperRange + lc.Product.priceData.upperRange * lc.quantity,
       }),
       { lowerRange: 0, upperRange: 0 },
     );
