@@ -31,9 +31,10 @@ export const createAUser = async (data) => {
     id,
   });
 
-  sendEmail(EMAIL.EMAIL_VERIFICATION.TYPE, { userId: newUser.id }).then(
-    console.log,
-  );
+  sendEmail(EMAIL.EMAIL_VERIFICATION.TYPE, {
+    userId: newUser.id,
+    email: newUser.email,
+  }).then(console.log);
 
   const accessToken = await tokenService.generateToken(newUser.id);
   return {
