@@ -69,3 +69,16 @@ export const getOne = async (req, res, next) => {
     return next(error);
   }
 };
+
+export const sendOne = async (req, res, next) => {
+  try {
+    await listService.sendOne(req.params.id, req.body);
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'Email notification sent.',
+    });
+  } catch (error) {
+    return next(error);
+  }
+};

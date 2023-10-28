@@ -43,6 +43,22 @@ export const updateUserProfile = async (req, res, next) => {
   }
 };
 
+export const verifyUser = async (req, res, next) => {
+  try {
+    const result = await userService.updateAUser(req.user.id, {
+      isVerified: true,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'User verified successfully.',
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const deleteUserProfile = async (req, res, next) => {
   try {
     await userService.deleteAUser(req.user.id);

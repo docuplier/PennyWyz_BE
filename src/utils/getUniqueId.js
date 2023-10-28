@@ -1,14 +1,16 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-await-in-loop */
 import crypto from 'crypto';
 import constants from '../config/constants.js';
 
-const createShortId = async (length = constants.ID_LENGTH) => {
+const createShortId = (length = constants.ID_LENGTH) => {
   const characters = 'abcdefghijklmnopqrstuvwxyz$1234567890';
-  let token = [];
+  const token = [];
 
   while (length > 0) {
-    let index = await crypto.randomInt(characters.length);
+    const index = crypto.randomInt(characters.length);
     token.push(characters[index]);
-    length--;
+    length -= 1;
   }
   return token.join('');
 };
@@ -20,9 +22,9 @@ const createShortId = async (length = constants.ID_LENGTH) => {
  * @returns uniqueId
  */
 export default async (conditionPromise, size = constants.ID_LENGTH) => {
-  let id = await createShortId(size);
+  let id = createShortId(size);
   while (await conditionPromise(id)) {
-    id = await createShortId(size);
+    id = createShortId(size);
   }
 
   return id;

@@ -1,12 +1,14 @@
 import model from '../database/models/index.js';
 import * as tokenService from './token.service.js';
 import getUniqueId from '../utils/getUniqueId.js';
+import sendEmail from '../utils/mail.service/index.js';
+import { hashPassword, validatePassword } from '../utils/hash.js';
+import { EMAIL } from '../config/constants.js';
 import {
   ResourceConflictError,
   ResourceNotFoundError,
   ForbiddenError,
 } from '../utils/Errors.js';
-import { hashPassword, validatePassword } from '../utils/hash.js';
 
 const { Op } = model.Sequelize;
 const parse = (queryParams = {}) => queryParams;
@@ -28,6 +30,10 @@ export const createAUser = async (data) => {
     password: hashedPassword,
     id,
   });
+
+  sendEmail(EMAIL.EMAIL_VERIFICATION.TYPE, { userId: newUser.id }).then(
+    console.log,
+  );
 
   const accessToken = await tokenService.generateToken(newUser.id);
   return {

@@ -8,7 +8,7 @@ import authenticate from '../middlewares/auth/authenticate.js';
 const router = Router();
 
 router.use('/list-contents', authenticate, listContentRoutes);
-router.use('/lists', authenticate, listRoutes);
+router.use('/lists', listRoutes);
 router.use('/products', productRoutes);
 router.use('/users', userRoutes);
 

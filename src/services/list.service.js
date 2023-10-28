@@ -1,9 +1,11 @@
 import model from '../database/models/index.js';
 import getUniqueId from '../utils/getUniqueId.js';
+import sendEmail from '../utils/mail.service/index.js';
 import {
   ResourceConflictError,
   ResourceNotFoundError,
 } from '../utils/Errors.js';
+import { EMAIL } from '../config/constants.js';
 
 const { Op } = model.Sequelize;
 
@@ -72,10 +74,31 @@ export const deleteAList = async (id, userId) => {
 };
 
 export const getOne = async (id) => {
-  const savedRecord = await model.List.findByPk(id);
+  const savedRecord = await model.List.findByPk(id, {
+    include: [
+      { model: model.ListContent, include: [model.Product] },
+      {
+        model: model.User,
+        attributes: ['id', 'email', 'lastName', 'firstName'],
+      },
+    ],
+  });
   if (!savedRecord) throw new ResourceNotFoundError('List record not found.');
 
   return savedRecord;
+};
+
+export const sendOne = async (id, data) => {
+  const savedRecord = await model.List.findByPk(id);
+  if (!savedRecord) throw new ResourceNotFoundError('List record not found.');
+
+  sendEmail(EMAIL.LIST_SHARING.TYPE, {
+    emails: data.emails,
+    listId: savedRecord.id,
+    name: savedRecord.name,
+  }).then(console.log);
+
+  return true;
 };
 
 export const getAll = async (query, userId) => {

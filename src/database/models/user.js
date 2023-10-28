@@ -23,8 +23,13 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
-  User.associate = function (models) {
+  User.associate = function associate(models) {
     models.User.hasMany(models.Token, {
       foreignKey: 'userId',
     });

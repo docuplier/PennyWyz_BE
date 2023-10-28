@@ -43,6 +43,13 @@ const validationRules = {
         'name must be in a string format with at least 3 characters.',
       ),
   ],
+  sendOne: [
+    check('emails')
+      .notEmpty()
+      .withMessage('emails is required.')
+      .isArray({ min: 1 })
+      .withMessage('At least an email is needed to proceed.'),
+  ],
   getAll: [
     check('country')
       .trim()

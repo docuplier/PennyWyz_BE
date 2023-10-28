@@ -25,4 +25,6 @@ router
   .route('/:id')
   .get(validateUser('checkId'), authenticate, userController.getOne);
 
+router.put('/:id/verify', validateUser('checkId'), userController.verifyUser);
+
 export default router;

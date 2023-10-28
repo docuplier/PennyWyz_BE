@@ -10,8 +10,33 @@ export const USER_ROLES = {
   BUYER: 'buyer',
 };
 
-export const TRANSACTION_TYPES = {
-  DEPOSIT: 'deposit',
-  PURCHASE: 'purchase',
-  RESET: 'reset',
+export const MAILERSEND = {
+  API_KEY: process.env.MAILERSEND_API_KEY,
+  TEMPLATE_ID: {
+    EMAIL_VERIFICATION: 'jpzkmgqpneqng059v',
+    LIST_SHARING: '0r83ql3e8jv4zw1j',
+  },
+};
+
+export const FRONTEND = {
+  BASE_URL: 'https://pennywyz.com',
+  LIST_ONE: '/lists/:listId',
+  VERIFY_USER: '/users/:userId/veerify',
+};
+
+export const EMAIL = {
+  MAILER: {
+    SENDER: {
+      EMAIL: 'support@pennywyz.com',
+      NAME: 'Support',
+    },
+  },
+  EMAIL_VERIFICATION: {
+    SUBJECT: 'Welcome to PennyWyz',
+    TYPE: 'email_verification',
+  },
+  LIST_SHARING: {
+    SUBJECT: 'Check this PennyWyz List out',
+    TYPE: 'list_sharing',
+  },
 };
