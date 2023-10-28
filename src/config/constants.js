@@ -19,9 +19,9 @@ export const MAILERSEND = {
 };
 
 export const FRONTEND = {
-  BASE_URL: 'https://pennywyz.com',
+  BASE_URL: 'https://pennywyz-fe.vercel.app',
   LIST_ONE: '/lists/:listId',
-  VERIFY_USER: '/users/:userId/veerify',
+  VERIFY_USER: '/users/:userId/verify',
 };
 
 export const EMAIL = {
