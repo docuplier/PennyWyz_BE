@@ -96,7 +96,9 @@ export const sendOne = async (id, data) => {
     emails: data.emails,
     listId: savedRecord.id,
     name: savedRecord.name,
-  }).then(console.log);
+  })
+    .then(console.log)
+    .catch(console.log);
 
   return true;
 };

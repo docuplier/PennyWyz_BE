@@ -31,18 +31,18 @@ export default async (template, isBulk = false) => {
         .setTags(template.tags),
     );
 
-    await mailerSend.email.sendBulk(recipients);
-  } else {
-    const recipients = template.recipients.map((x) => new Recipient(x.email));
-    const emailParams = new EmailParams()
-      .setFrom(sentFrom)
-      .setReplyTo(sentFrom)
-      .setTo(recipients)
-      .setPersonalization(template.recipients)
-      .setSubject(template.subject)
-      .setTags(template.tags)
-      .setTemplateId(template.templateId);
-
-    await mailerSend.email.send(emailParams);
+    return mailerSend.email.sendBulk(recipients);
   }
+
+  const recipients = template.recipients.map((x) => new Recipient(x.email));
+  const emailParams = new EmailParams()
+    .setFrom(sentFrom)
+    .setReplyTo(sentFrom)
+    .setTo(recipients)
+    .setPersonalization(template.recipients)
+    .setSubject(template.subject)
+    .setTags(template.tags)
+    .setTemplateId(template.templateId);
+
+  return mailerSend.email.send(emailParams);
 };

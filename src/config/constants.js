@@ -1,3 +1,7 @@
+import dotenv from 'dotenv';
+
+if (process.env.NODE_ENV !== 'production') dotenv.config();
+
 export default {
   JWT_SECRET: process.env.JWT_SECRET || 'secret',
   JWT_EXPIRESIN: 1000 * 60 * 5, // 5 minutues

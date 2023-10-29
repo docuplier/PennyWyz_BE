@@ -34,7 +34,9 @@ export const createAUser = async (data) => {
   sendEmail(EMAIL.EMAIL_VERIFICATION.TYPE, {
     userId: newUser.id,
     email: newUser.email,
-  }).then(console.log);
+  })
+    .then(console.log)
+    .catch(console.log);
 
   const accessToken = await tokenService.generateToken(newUser.id);
   return {
