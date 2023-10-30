@@ -16,7 +16,7 @@ export default async (template, isBulk = false) => {
   const mailerSend = new MailerSend({
     apiKey: MAILERSEND.API_KEY,
   });
-
+  console.log({ template });
   const sentFrom = new Sender(template.sender.email, template.sender.name);
 
   if (isBulk) {

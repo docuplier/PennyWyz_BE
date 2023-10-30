@@ -17,7 +17,7 @@ export const USER_ROLES = {
 export const MAILERSEND = {
   API_KEY: process.env.MAILERSEND_API_KEY,
   TEMPLATE_ID: {
-    EMAIL_VERIFICATION: 'jpzkmgqpneqng059v',
+    EMAIL_VERIFICATION: 'jpzkmgqneqng059v',
     LIST_SHARING: '0r83ql3e8jv4zw1j',
   },
 };
