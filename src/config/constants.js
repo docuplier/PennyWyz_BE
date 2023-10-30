@@ -32,7 +32,7 @@ export const EMAIL = {
   MAILER: {
     SENDER: {
       EMAIL: 'support@pennywyz.com',
-      NAME: 'Support',
+      NAME: 'PennyWyz',
     },
   },
   EMAIL_VERIFICATION: {
