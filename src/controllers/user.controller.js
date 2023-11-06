@@ -45,7 +45,7 @@ export const updateUserProfile = async (req, res, next) => {
 
 export const verifyUser = async (req, res, next) => {
   try {
-    const result = await userService.updateAUser(req.user.id, {
+    const result = await userService.updateAUser(req.params.id, {
       isVerified: true,
     });
 

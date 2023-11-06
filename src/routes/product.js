@@ -4,12 +4,6 @@ import validateProduct from '../middlewares/validator/product.js';
 
 const router = Router();
 
-router
-  .route('/')
-  .get(
-    validateProduct('listQueryParams'),
-    productController.listSelectedProducts,
-  )
-  .post(productController.seed);
+router.route('/').get(validateProduct('listQueryParams'), productController.listSelectedProducts);
 
 export default router;

@@ -44,6 +44,8 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
+    "pupeteer": "^0.0.1",
+    "puppeteer": "^21.5.0",
     "sequelize": "^6.13.0",
     "winston": "^3.4.0"
   },
