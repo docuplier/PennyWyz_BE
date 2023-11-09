@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'querystring';
-import { GOOGLE } from '../../config/constants';
+import { GOOGLE } from '../../config/constants.js';
 
 // https://accounts.google.com/o/oauth2/v2/auth
 
