@@ -154,7 +154,7 @@ export default async function run() {
         .map((__, idx) => seed(savedCategory.id, cat.slug, page + idx));
 
       await Promise.all(promiseArr);
-      logger.info('Done with an iteration for supermart products.', cat.category, 'category.');
+      logger.info(`Done with an iteration for supermart products. ${cat.category} category.`);
     }
   }
   logger.info('Done seeding supermart products.');

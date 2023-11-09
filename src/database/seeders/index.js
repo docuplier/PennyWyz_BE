@@ -10,5 +10,12 @@ export default async function seed() {
   if (count > 0) return [];
 
   logger.info('Seeding Products.');
-  return Promise.allSettled([seedAldiProducts(), seedSupermartProducts()]);
+  try {
+    await seedAldiProducts();
+    await seedSupermartProducts();
+  } catch (error) {
+    logger.error(error.message);
+  }
+  return [];
 }
+seed();

@@ -126,7 +126,7 @@ export default async function run() {
   });
   const page = await browser.newPage();
 
-  for (let i = 1; i < array.length; i += 1) {
+  for (let i = 0; i < array.length; i += 1) {
     const cat = array[i];
 
     const [savedCategory, _] = await model.Category.findOrCreate({
@@ -137,7 +137,7 @@ export default async function run() {
     for (let currentPage = 1; currentPage <= cat.lastPage; currentPage += bufferSize) {
       await seed(savedCategory.id, cat.slug, currentPage, page);
     }
-    logger.info('Done with an iteration for aldi products.', cat.category, 'category.');
+    logger.info(`Done with an iteration for aldi products.${cat.category} category.`);
   }
   logger.info('Done seeding products in aldi stores.');
   await browser.close();
