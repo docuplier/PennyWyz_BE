@@ -1,4 +1,6 @@
+import { FRONTEND } from '../config/constants.js';
 import * as userService from '../services/user.service.js';
+import { getLoginUrl } from '../utils/socialLogins/google.js';
 
 export const registerAUser = async (req, res, next) => {
   try {
@@ -108,6 +110,26 @@ export const logoutAllTokens = async (req, res, next) => {
       status: 'success',
       message: 'All tokens logged out successfully successfully.',
     });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const socialAuth = async (req, res, next) => {
+  try {
+    return res.redirect(getLoginUrl());
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export const socialAuthWebhook = async (req, res, next) => {
+  try {
+    const socialAuthCode = await userService.socialAuth(req.query.code);
+
+    return res.redirect(
+      `${FRONTEND.BASE_URL}${FRONTEND.SOCIAL_AUTH}?provider=${req.params.provider}&code=${socialAuthCode}`,
+    );
   } catch (error) {
     return next(error);
   }

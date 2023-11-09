@@ -10,5 +10,5 @@ export default async function seed() {
   if (count > 0) return [];
 
   logger.info('Seeding Products.');
-  return Promise.all([seedAldiProducts(), seedSupermartProducts()]);
+  return Promise.allSettled([seedAldiProducts(), seedSupermartProducts()]);
 }

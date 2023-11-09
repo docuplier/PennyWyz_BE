@@ -27,4 +27,7 @@ router
 
 router.put('/:id/verify', validateUser('checkId'), userController.verifyUser);
 
+router.get('/social/:provider/webhook', userController.socialAuthWebhook);
+router.get('/social/:provider', userController.socialAuth);
+
 export default router;

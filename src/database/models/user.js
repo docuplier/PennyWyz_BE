@@ -11,6 +11,14 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
     },
+    socialId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    socialProvider: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     firstName: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -21,7 +29,7 @@ export default (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
