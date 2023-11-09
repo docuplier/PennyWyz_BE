@@ -1,20 +1,11 @@
 import axios from 'axios';
 import qs from 'querystring';
+import { GOOGLE } from '../../config/constants';
 
-const credentials = {
-  web: {
-    client_id: '811337646670-fvidlk88r49t5cep4adoa5ued55g5fes.apps.googleusercontent.com',
-    project_id: 'pennywyz',
-    auth_uri: 'https://accounts.google.com/o/oauth2/auth',
-    token_uri: 'https://oauth2.googleapis.com/token',
-    auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
-    client_secret: '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',
-  },
-};
 // https://accounts.google.com/o/oauth2/v2/auth
 
 export const getLoginUrl = () => {
-  const url = new URL(credentials.web.auth_uri);
+  const url = new URL(GOOGLE.auth_uri);
   url.searchParams.append('scope', 'email profile');
   url.searchParams.append('access_type', 'offline');
   url.searchParams.append('response_type', 'code');
@@ -22,7 +13,7 @@ export const getLoginUrl = () => {
     'redirect_uri',
     'https://pennywyz.com/api/v1/users/social/google/webhook',
   );
-  url.searchParams.append('client_id', credentials.web.client_id);
+  url.searchParams.append('client_id', GOOGLE.client_id);
 
   return url.toString();
 };
@@ -32,8 +23,8 @@ export const getGoogleOauthToken = async ({ code }) => {
 
   const options = {
     code,
-    client_id: credentials.web.client_id,
-    client_secret: credentials.web.client_secret,
+    client_id: GOOGLE.client_id,
+    client_secret: GOOGLE.client_secret,
     access_type: 'offline',
     redirect_uri: 'https://pennywyz.com/api/v1/users/social/google/webhook',
     grant_type: 'authorization_code',
