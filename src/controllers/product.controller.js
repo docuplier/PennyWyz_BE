@@ -13,6 +13,19 @@ export const createAProduct = async (req, res, next) => {
   }
 };
 
+export const createProducts = async (req, res, next) => {
+  try {
+    const result = await productService.createProducts(req.body);
+    return res.status(201).json({
+      status: 'success',
+      message: 'Product records created successfully.',
+      data: result,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export const updateAProduct = async (req, res, next) => {
   try {
     const result = await productService.updateAProduct(req.params.id, req.body, req.user.id);

@@ -34,6 +34,20 @@ export const createAProduct = async (data) => {
   return newProduct;
 };
 
+export const createProducts = async (data) => {
+  if (!data.category) return false;
+  const [savedCategory, _] = await model.Category.findOrCreate({
+    where: { name: data.category },
+    defaults: { name: data.category },
+  });
+
+  await model.Product.bulkCreate(
+    data.products.map((x) => ({ ...x, categoryId: savedCategory.id })),
+  );
+
+  return true;
+};
+
 export const updateAProduct = async (id, updateData) => {
   if (updateData.name) {
     const checkDuplicate = await model.Product.findOne({

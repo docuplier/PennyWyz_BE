@@ -121,6 +121,7 @@ export const logoutAllTokens = async (id) => {
 };
 
 export const socialAuth = async (code) => {
+  if (!code) return 1100;
   const token = await GoogleService.getGoogleOauthToken({ code });
   const googleUser = await GoogleService.getGoogleUser({
     idToken: token.id_token,
@@ -135,9 +136,7 @@ export const socialAuth = async (code) => {
     const checkDuplicate = await model.User.findOne({
       where: { email: { [Op.iLike]: googleUser.email } },
     });
-    if (checkDuplicate) {
-      throw new ResourceConflictError(`User, with email: ${googleUser.email}, already exists.`);
-    }
+    if (checkDuplicate) return 1101;
     const id = await getUniqueId((i) => model.User.findByPk(i));
     const [firstName, lastName] = googleUser.name.split(' ');
     savedUser = await model.User.create({

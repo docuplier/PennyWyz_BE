@@ -26,7 +26,7 @@ export const getActiveLoginCount = async (userId) => {
 export const verifyToken = async (token) => {
   const payload = await jwt.verify(token, constants.JWT_SECRET);
   if (!payload || !payload.id) return null;
-  if (payload.exp * 1000 <= Date.now()) return null;
+  // if (payload.exp * 1000 <= Date.now()) return null;
 
   const tokenWithUser = await model.Token.findOne({
     where: { token, userId: payload.id },

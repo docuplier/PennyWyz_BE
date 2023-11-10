@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-await-in-loop */
 import puppeteer from 'puppeteer';
-import model from '../../models/index.js';
+import axios from 'axios';
 import logger from '../../../utils/logger.js';
 
 // URL of the website you want to scrape
@@ -23,7 +23,7 @@ const getPriceData = (priceString) => {
   };
 };
 
-async function seed(savedCategoryId, category, currentPage, page) {
+async function seed(savedCategory, category, currentPage, page) {
   await page.mainFrame().goto(getUrl(category, currentPage), {
     waitUntil: 'networkidle0',
   });
@@ -44,14 +44,14 @@ async function seed(savedCategoryId, category, currentPage, page) {
     });
   });
 
-  await model.Product.bulkCreate(
-    products.map((x) => ({
+  await axios.post('https://pennywyz.com/api/v1/products', {
+    category: savedCategory,
+    products: products.map((x) => ({
       priceData: getPriceData(x.price),
       name: x.name,
-      categoryId: savedCategoryId,
       country: 'UK',
     })),
-  );
+  });
 }
 
 const array = [
@@ -129,13 +129,8 @@ export default async function run() {
   for (let i = 0; i < array.length; i += 1) {
     const cat = array[i];
 
-    const [savedCategory, _] = await model.Category.findOrCreate({
-      where: { name: cat.category },
-      defaults: { name: cat.category },
-    });
-
     for (let currentPage = 1; currentPage <= cat.lastPage; currentPage += bufferSize) {
-      await seed(savedCategory.id, cat.slug, currentPage, page);
+      await seed(cat.category, cat.slug, currentPage, page);
     }
     logger.info(`Done with an iteration for aldi products.${cat.category} category.`);
   }
