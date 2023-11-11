@@ -35,13 +35,15 @@ const validationRules = {
   update: [
     check('quantity')
       .trim()
+      .optional()
       .notEmpty()
-      .withMessage('quantity is required.')
+      .withMessage('quantity can not be empty.')
       .isInt({ min: 0 })
       .withMessage('quantity must be an integer.'),
     check('checked')
+      .optional()
       .notEmpty()
-      .withMessage('checked is required.')
+      .withMessage('checked can not be empty.')
       .isBoolean()
       .withMessage('checked must be boolean.'),
   ],

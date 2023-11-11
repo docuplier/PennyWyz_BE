@@ -1,8 +1,6 @@
+/* eslint-disable no-prototype-builtins */
 import model from '../database/models/index.js';
-import {
-  ResourceConflictError,
-  ResourceNotFoundError,
-} from '../utils/Errors.js';
+import { ResourceConflictError, ResourceNotFoundError } from '../utils/Errors.js';
 
 const parse = (queryParams = {}) => {
   const filter = {
@@ -25,7 +23,11 @@ export const create = async (data) => {
 };
 
 export const update = async (id, data) => {
-  const result = await model.ListContent.update(data, { where: { id } });
+  const d = {};
+  if (data.hasOwnProperty('quantity')) d.quantity = data.quantity;
+  if (data.hasOwnProperty('checked')) d.checked = data.checked;
+
+  const result = await model.ListContent.update(d, { where: { id } });
   const affectedRecordCount = result[0];
   if (!affectedRecordCount) {
     throw new ResourceNotFoundError('List Content record not found.');
