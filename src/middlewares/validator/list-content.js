@@ -30,9 +30,7 @@ const validationRules = {
       .withMessage('listId is required.')
       .isString()
       .isLength({ min: constants.ID_LENGTH, max: constants.ID_LENGTH })
-      .withMessage(
-        `listId must be a string of ${constants.ID_LENGTH} characters.`,
-      ),
+      .withMessage(`listId must be a string of ${constants.ID_LENGTH} characters.`),
   ],
   update: [
     check('quantity')
@@ -41,6 +39,11 @@ const validationRules = {
       .withMessage('quantity is required.')
       .isInt({ min: 0 })
       .withMessage('quantity must be an integer.'),
+    check('checked')
+      .notEmpty()
+      .withMessage('checked is required.')
+      .isBoolean()
+      .withMessage('checked must be boolean.'),
   ],
   getAll: [
     query('listId')
@@ -49,9 +52,7 @@ const validationRules = {
       .withMessage('listId is required in the query params.')
       .isString()
       .isLength({ min: constants.ID_LENGTH, max: constants.ID_LENGTH })
-      .withMessage(
-        `listId must be a string of ${constants.ID_LENGTH} characters.`,
-      ),
+      .withMessage(`listId must be a string of ${constants.ID_LENGTH} characters.`),
   ],
 };
 

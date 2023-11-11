@@ -7,6 +7,11 @@ export default (sequelize, DataTypes) => {
         min: 0,
       },
     },
+    checked: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   });
   ListContent.associate = function associate(models) {
     models.ListContent.belongsTo(models.List, {

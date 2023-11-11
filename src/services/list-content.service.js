@@ -24,11 +24,8 @@ export const create = async (data) => {
   return model.ListContent.create(data);
 };
 
-export const update = async (id, quantity) => {
-  const result = await model.ListContent.update(
-    { quantity },
-    { where: { id } },
-  );
+export const update = async (id, data) => {
+  const result = await model.ListContent.update(data, { where: { id } });
   const affectedRecordCount = result[0];
   if (!affectedRecordCount) {
     throw new ResourceNotFoundError('List Content record not found.');

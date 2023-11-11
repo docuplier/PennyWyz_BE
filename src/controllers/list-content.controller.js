@@ -15,10 +15,7 @@ export const createAListContent = async (req, res, next) => {
 
 export const updateAListContent = async (req, res, next) => {
   try {
-    const result = await listContentService.update(
-      req.params.id,
-      req.body.quantity,
-    );
+    const result = await listContentService.update(req.params.id, req.body);
     return res.status(200).json({
       status: 'success',
       message: 'List Content record updated successfully.',
