@@ -17,7 +17,7 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: constants.SUPPORTED_COUNTRIES[0],
       validate: {
-        isIn: constants.SUPPORTED_COUNTRIES,
+        isIn: [constants.SUPPORTED_COUNTRIES],
       },
     },
   });

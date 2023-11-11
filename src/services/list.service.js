@@ -18,6 +18,8 @@ const parse = (userId, queryParams = {}) => {
     offset: (page - 1) * limit,
   };
 
+  if (queryParams.country) filter.where.country = queryParams.country;
+
   if (queryParams.search) {
     filter.where.name = {
       [Op.iLike]: `%${queryParams.search}%`,
