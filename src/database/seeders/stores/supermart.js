@@ -39,7 +39,6 @@ async function seed(savedCategory, category, page) {
         products.push({
           priceData,
           name: $(nameTag).text().trim(),
-          categoryId: savedCategoryId,
           country: 'NG',
         });
       });
@@ -50,8 +49,7 @@ async function seed(savedCategory, category, page) {
       axios.post('https://pennywyz.com/api/v1/products', {
         category: savedCategory,
         products,
-      }),
-    )
+      }))
     .catch((error) => {
       throw new Error(`Error fetching data: ${error.message}`);
     });

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import model from '../database/models/index.js';
 import {
   ResourceConflictError,

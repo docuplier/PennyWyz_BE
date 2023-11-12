@@ -43,19 +43,15 @@ async function seed(savedCategory, category, currentPage, page) {
       return { name, price };
     });
   });
-  console.log(JSON.stringify(products.map((x) => ({
-    priceData: getPriceData(x.price),
-    name: x.name,
-    country: 'UK',
-  })), null, 2));
-  // await axios.post('https://pennywyz.com/api/v1/products', {
-  //   category: savedCategory,
-  //   products: products.map((x) => ({
-  //     priceData: getPriceData(x.price),
-  //     name: x.name,
-  //     country: 'UK',
-  //   })),
-  // });
+
+  await axios.post('https://pennywyz.com/api/v1/products', {
+    category: savedCategory,
+    products: products.map((x) => ({
+      priceData: getPriceData(x.price),
+      name: x.name,
+      country: 'UK',
+    })),
+  });
 }
 
 const array = [
