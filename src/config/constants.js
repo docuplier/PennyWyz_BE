@@ -23,7 +23,8 @@ export const MAILERSEND = {
 };
 
 export const FRONTEND = {
-  BASE_URL: 'https://pennywyz-fe.vercel.app',
+  // BASE_URL: 'https://pennywyz-fe.vercel.app',
+  BASE_URL: 'https://pennywyz.com',
   SOCIAL_AUTH: '/auth',
   LIST_ONE: '/list/public/:listId',
   VERIFY_USER: '/auth/:userId/verify',
