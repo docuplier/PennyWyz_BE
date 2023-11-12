@@ -5,6 +5,7 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: 'name:country',
     },
     priceData: {
       type: DataTypes.TEXT,
@@ -20,6 +21,7 @@ export default (sequelize, DataTypes) => {
     country: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: 'name:country',
       defaultValue: constants.SUPPORTED_COUNTRIES[0],
       validate: {
         isIn: [constants.SUPPORTED_COUNTRIES],

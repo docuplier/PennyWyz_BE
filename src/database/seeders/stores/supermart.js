@@ -3,7 +3,6 @@
 /* eslint-disable no-await-in-loop */
 import axios from 'axios';
 import cheerio from 'cheerio';
-import model from '../../models/index.js';
 import logger from '../../../utils/logger.js';
 
 // URL of the website you want to scrape
@@ -25,7 +24,7 @@ const getPriceData = (priceString) => {
 };
 
 // Make an HTTP GET request to fetch the HTML content
-async function seed(savedCategoryId, category, page) {
+async function seed(savedCategory, category, page) {
   return axios
     .get(getUrl(category, page))
     .then((response) => cheerio.load(response.data))
@@ -47,7 +46,12 @@ async function seed(savedCategoryId, category, page) {
 
       return products;
     })
-    .then((products) => model.Product.bulkCreate(products))
+    .then((products) =>
+      axios.post('https://pennywyz.com/api/v1/products', {
+        category: savedCategory,
+        products,
+      }),
+    )
     .catch((error) => {
       throw new Error(`Error fetching data: ${error.message}`);
     });
@@ -142,16 +146,11 @@ export default async function run() {
   for (let i = 0; i < array.length; i += 1) {
     const cat = array[i];
 
-    const [savedCategory, _] = await model.Category.findOrCreate({
-      where: { name: cat.category },
-      defaults: { name: cat.category },
-    });
-
     for (let page = 1; page <= cat.lastPage; page += bufferSize) {
       const size = cat.lastPage < page + bufferSize ? cat.lastPage - page : bufferSize;
       const promiseArr = new Array(size)
         .fill(0)
-        .map((__, idx) => seed(savedCategory.id, cat.slug, page + idx));
+        .map((__, idx) => seed(cat.category, cat.slug, page + idx));
 
       await Promise.all(promiseArr);
       logger.info(`Done with an iteration for supermart products. ${cat.category} category.`);

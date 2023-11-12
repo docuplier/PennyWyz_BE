@@ -8,5 +8,6 @@
     "bracketSpacing": true,
     "arrowParens": "always",
     "endOfLine": "lf",
-    "printWidth": 100
+    "printWidth": 100,
+    "rangeEnd": 100
 }

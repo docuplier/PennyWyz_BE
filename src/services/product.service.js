@@ -41,8 +41,11 @@ export const createProducts = async (data) => {
     defaults: { name: data.category },
   });
 
-  await model.Product.bulkCreate(
-    data.products.map((x) => ({ ...x, categoryId: savedCategory.id })),
+  await Promise.all(
+    data.products.map((x) => model.Product.upsert(
+      { ...x, categoryId: savedCategory.id },
+      { conflictFields: ['name', 'country'] },
+    )),
   );
 
   return true;
@@ -81,8 +84,7 @@ export const deleteAProduct = async (id) => {
 
 export const getOneProduct = async (id) => {
   const savedRecord = await model.Product.findByPk(id);
-  if (!savedRecord)
-    throw new ResourceNotFoundError('Product record not found.');
+  if (!savedRecord) { throw new ResourceNotFoundError('Product record not found.'); }
 
   return savedRecord;
 };
