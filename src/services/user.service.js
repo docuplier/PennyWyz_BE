@@ -50,7 +50,7 @@ export const loginAUser = async (credentials) => {
       if (!savedUser) throw new ForbiddenError();
     } else {
       savedUser = await model.User.findOne({
-        where: { email: { [Op.iLike]: credentials.email } },
+        where: { email: { [Op.iLike]: credentials.email }, socialId: null },
       });
       if (!savedUser) throw new ForbiddenError();
 
